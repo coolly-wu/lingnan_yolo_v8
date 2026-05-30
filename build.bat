@@ -20,7 +20,22 @@ if exist dist  rmdir /s /q dist
 
 echo.
 echo ============================================================
-echo  2/3  PyInstaller 打包
+echo  2/4  准备真实模型权重（best.pt -^> yolov8s_xh_best.pt）
+echo ============================================================
+if exist "models\best.pt" (
+    if not exist "models\yolov8s_xh_best.pt" (
+        copy /y "models\best.pt" "models\yolov8s_xh_best.pt" >nul
+        echo 已复制 best.pt 为候选标准名 yolov8s_xh_best.pt
+    ) else (
+        echo 已存在 models\yolov8s_xh_best.pt，跳过复制
+    )
+) else (
+    echo [警告] 未找到 models\best.pt，将仅打包占位/已有模型
+)
+
+echo.
+echo ============================================================
+echo  3/4  PyInstaller 打包
 echo ============================================================
 if exist ".venv\Scripts\pyinstaller.exe" (
     ".venv\Scripts\pyinstaller.exe" build.spec
@@ -34,7 +49,7 @@ if errorlevel 1 (
 
 echo.
 echo ============================================================
-echo  3/3  Inno Setup 制作安装包（若已安装）
+echo  4/4  Inno Setup 制作安装包（若已安装）
 echo ============================================================
 where iscc >nul 2>nul
 if errorlevel 1 (
