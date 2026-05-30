@@ -40,6 +40,7 @@ from .fluent import (
 )
 
 from .. import config as C
+from ..core import teaching
 from ..core.image_io import imread_unicode, imwrite_unicode
 from ..core.inferencer import Detection, Inferencer
 from ..data.farmer_manager import FarmerManager
@@ -52,6 +53,7 @@ from .worker import DetectWorker
 
 class DetectionPage(QWidget):
     log_inserted = pyqtSignal(int)  # 通知台账页刷新
+    result_ready = pyqtSignal(dict)  # 当前结果上下文 → 教学生成页
 
     def __init__(self, inferencer: Inferencer, kb: KnowledgeBase,
                  logs: LogManager, farmers: FarmerManager,
@@ -368,6 +370,28 @@ class DetectionPage(QWidget):
         self.timing_label.setText(f"⏱ 推理：{elapsed_ms:.1f} ms")
         self._render_detail(path, dets, summary)
         self._render_prescription(summary)
+        self._emit_result_ready(dets, summary)
+
+    def _emit_result_ready(self, dets: list[Detection], summary: dict):
+        """构造可序列化上下文，推送给教学生成页（不影响检测主流程）。"""
+        try:
+            pid = summary.get("primary_id")
+            phase_key = self.phase_combo.currentData()
+            phase_name = self.phase_combo.currentText()
+            rx = self.kb.lookup(pid, phase_key) if pid is not None else None
+            ctx = teaching.build_context(
+                summary=summary,
+                dets_count=len(dets),
+                phase_key=phase_key,
+                phase_name_cn=phase_name,
+                rx=rx,
+                farmer=self.farmer_input.text().strip() if hasattr(self, "farmer_input") else "",
+                orchard=self.orchard_input.text().strip() if hasattr(self, "orchard_input") else "",
+            )
+            self.result_ready.emit(ctx)
+        except Exception:
+            # 教学生成是附加能力，任何异常都不得影响检测
+            pass
 
     def _render_detail(self, path: str, dets: list[Detection], summary: dict):
         lines = [

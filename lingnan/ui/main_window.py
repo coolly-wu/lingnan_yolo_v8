@@ -45,6 +45,7 @@ from .help_page import HelpPage
 from .log_page import LogPage
 from .settings_page import SettingsPage
 from .style import STYLE_SHEET
+from .teaching_page import TeachingPage
 from .training_page import TrainingPage
 from .training_result_page import TrainingResultPage
 
@@ -90,6 +91,9 @@ class MainWindow(FluentWindow):
         )
         self.detection_page.setObjectName("detectionPage")
         self.detection_page.log_inserted.connect(self._on_log_inserted)
+        self.teaching_page = TeachingPage(self.kb, self.settings)
+        self.teaching_page.setObjectName("teachingPage")
+        self.detection_page.result_ready.connect(self.teaching_page.set_context)
         self.camera_page = CameraPage(self.inferencer)
         self.camera_page.setObjectName("cameraPage")
         self.collection_page = CollectionPage()
@@ -123,6 +127,7 @@ class MainWindow(FluentWindow):
 
         self.addSubInterface(self.home_page, FIF.HOME, "概览")
         self.addSubInterface(self.detection_page, FIF.SEARCH, "智能检测")
+        self.addSubInterface(self.teaching_page, FIF.DOCUMENT, "教学生成")
         self.addSubInterface(self.camera_page, FIF.CAMERA, "实时摄像头")
         self.addSubInterface(self.collection_page, FIF.DOWNLOAD, "数据采集")
         self.addSubInterface(self.dataset_page, FIF.LABEL, "数据标注")
@@ -275,6 +280,7 @@ class MainWindow(FluentWindow):
         self.settings = s
         self._apply_font_scale(s.font_scale)
         self.detection_page.apply_settings(s)
+        self.teaching_page.apply_settings(s)
         # 档位变了 → 重新决策并切换推理后端
         if s.perf_tier != old_tier:
             new_decision = dp.decide_tier(forced=s.perf_tier)

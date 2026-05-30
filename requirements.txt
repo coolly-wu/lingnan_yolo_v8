@@ -18,6 +18,9 @@ opencv-python>=4.8.0
 numpy>=1.24.0
 Pillow>=10.0.0
 
+# 教学内容生成 LLM 客户端（本地或云端 OpenAI 兼容）+ 数据采集 HTTP
+requests>=2.31.0
+
 # Excel 报表（无需 MS Office）
 openpyxl>=3.1.0
 

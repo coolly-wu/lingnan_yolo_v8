@@ -30,6 +30,12 @@ class Settings:
     last_farmer: str = ""
     last_orchard: str = ""
     perf_tier: str = "auto"                # auto / pt / fp32 / int8 / mock
+    # ---- 教学内容生成 LLM（§8.16.B）----
+    llm_enabled: bool = False              # 关闭则始终用模板生成
+    llm_mode: str = "local"                # local（本地服务）/ cloud（云端 API）
+    llm_base_url: str = "http://localhost:11434/v1"
+    llm_api_key: str = ""                  # 云端模式填写，本地通常留空
+    llm_model: str = ""                    # 模型名，如 qwen2.5:7b / deepseek-chat
 
     def to_json(self) -> str:
         return json.dumps(asdict(self), ensure_ascii=False, indent=2)
@@ -48,6 +54,8 @@ class Settings:
             s_obj.perf_tier = dp.TIER_AUTO
         if not isinstance(s_obj.default_phenophase, str):
             s_obj.default_phenophase = "young_fruit"
+        if s_obj.llm_mode not in ("local", "cloud"):
+            s_obj.llm_mode = "local"
         return s_obj
 
 

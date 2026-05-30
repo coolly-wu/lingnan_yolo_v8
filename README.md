@@ -252,6 +252,7 @@ pyinstaller build.spec
 - 知识库中推荐药剂均为国家登记低毒低残留药剂（依据 NY/T 393-2020 与 GB 2763-2021），仅供产业园参考；最终用药须遵循当地农业农村部门最新指导。
 - 严守每种药剂的 **安全间隔期（PHI）**，从源头保障岭南红橙国家地理标志产品的药用安全。
 - **黄龙病**确诊植株必须立即砍除并就地烧毁，**禁止**化学治疗。
+- 项目原创内容、第三方开源组件、模型权重、数据素材和生成式 AI 辅助内容的来源边界见 [原创性与引用说明.md](原创性与引用说明.md)。
 
 ## 📝 许可证
 
@@ -259,5 +260,4 @@ pyinstaller build.spec
 - Ultralytics YOLOv8：AGPL-3.0（学术 / 公益使用；商业化需购买授权）
 - PyQt5：GPL v3（商业化建议替换为 PySide6 LGPL）
 - ONNX Runtime / OpenCV / SQLite / reportlab / openpyxl / Pillow：均为宽松开源协议
-
 

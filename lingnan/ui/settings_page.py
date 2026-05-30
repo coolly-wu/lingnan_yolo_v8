@@ -134,6 +134,35 @@ class SettingsPage(QWidget):
         beh_lay.addWidget(self.cb_auto_save)
         beh_lay.addWidget(self.cb_sound)
 
+        # 教学内容生成 LLM（§8.16.B）
+        llm_box, llm_lay = fluent_card(
+            "教学内容生成 (LLM)",
+            "本地或云端 OpenAI 兼容服务；关闭则始终用模板生成。",
+        )
+        self.cb_llm_enabled = CheckBox("启用 LLM 智能生成（关闭则用模板）")
+        llm_lay.addWidget(self.cb_llm_enabled)
+        llm_form = QFormLayout()
+        self.llm_mode_combo = ComboBox()
+        self.llm_mode_combo.addItem("本地服务（Ollama / llama.cpp）", userData="local")
+        self.llm_mode_combo.addItem("云端 API（DeepSeek / 豆包等）", userData="cloud")
+        llm_form.addRow("调用模式：", self.llm_mode_combo)
+        self.llm_base_input = LineEdit()
+        self.llm_base_input.setPlaceholderText("http://localhost:11434/v1")
+        llm_form.addRow("服务地址 base_url：", self.llm_base_input)
+        self.llm_key_input = LineEdit()
+        self.llm_key_input.setPlaceholderText("云端模式填 API Key，本地通常留空")
+        llm_form.addRow("API Key：", self.llm_key_input)
+        self.llm_model_input = LineEdit()
+        self.llm_model_input.setPlaceholderText("如 qwen2.5:7b / deepseek-chat")
+        llm_form.addRow("模型名 model：", self.llm_model_input)
+        llm_lay.addLayout(llm_form)
+        llm_hint = QLabel(
+            "💡 云端模式需联网，属可选项；默认本地离线。生成内容仅作教研辅助，须教师审核。"
+        )
+        llm_hint.setStyleSheet("color:#757575;")
+        llm_hint.setWordWrap(True)
+        llm_lay.addWidget(llm_hint)
+
         # 提示
         hint = QLabel(
             "💡 设置会立即生效（字体倍率需 Tab 切换刷新一次；"
@@ -169,6 +198,7 @@ class SettingsPage(QWidget):
         content_lay.addWidget(thr_box)
         content_lay.addWidget(save_box)
         content_lay.addWidget(beh_box)
+        content_lay.addWidget(llm_box)
         content_lay.addLayout(btns)
         content_lay.addWidget(hint)
         content_lay.addStretch(1)
@@ -206,6 +236,15 @@ class SettingsPage(QWidget):
         self.save_dir_input.setText(s.default_save_dir)
         self.cb_auto_save.setChecked(s.auto_save_log)
         self.cb_sound.setChecked(s.enable_sound)
+        # LLM
+        self.cb_llm_enabled.setChecked(getattr(s, "llm_enabled", False))
+        for i in range(self.llm_mode_combo.count()):
+            if self.llm_mode_combo.itemData(i) == getattr(s, "llm_mode", "local"):
+                self.llm_mode_combo.setCurrentIndex(i)
+                break
+        self.llm_base_input.setText(getattr(s, "llm_base_url", ""))
+        self.llm_key_input.setText(getattr(s, "llm_api_key", ""))
+        self.llm_model_input.setText(getattr(s, "llm_model", ""))
         # 同步刷新档位预览
         self._refresh_tier_preview()
 
@@ -269,6 +308,11 @@ class SettingsPage(QWidget):
         s.default_save_dir = self.save_dir_input.text().strip()
         s.auto_save_log = bool(self.cb_auto_save.isChecked())
         s.enable_sound = bool(self.cb_sound.isChecked())
+        s.llm_enabled = bool(self.cb_llm_enabled.isChecked())
+        s.llm_mode = self.llm_mode_combo.currentData()
+        s.llm_base_url = self.llm_base_input.text().strip()
+        s.llm_api_key = self.llm_key_input.text().strip()
+        s.llm_model = self.llm_model_input.text().strip()
         save_settings(s)
         self.settings_changed.emit(s)
         QMessageBox.information(
