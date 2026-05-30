@@ -33,24 +33,17 @@ hidden_imports += collect_submodules("onnxruntime")
 
 # ---------- 推理模型 ----------
 # 优先 ONNX（若已导出），否则带上真实 .pt 训练模型。
-# config.MODEL_CANDIDATES 认 yolov8s_xh_best*.* —— 因此把 best.pt 改名打包。
+# config.MODEL_CANDIDATES 只认 yolov8s_xh_best*.* 与 yolov8s.pt；
+# 仓库里的真实权重叫 best.pt，故 build.bat 会先复制为 yolov8s_xh_best.pt 再打包。
+# PyInstaller datas 第二元素只能指定目标“目录”、不能改文件名。
 onnx = ROOT / "models" / "yolov8s_xh_best_int8.onnx"
-pt_real = ROOT / "models" / "best.pt"            # 真实训练权重（本仓库实际文件名）
 pt_named = ROOT / "models" / "yolov8s_xh_best.pt"  # 候选列表里的标准名
-coco = ROOT / "models" / "yolov8s.pt"            # COCO 占位（演示兜底）
+coco = ROOT / "models" / "yolov8s.pt"              # COCO 占位（演示兜底）
 
 if onnx.exists():
     datas.append((str(onnx), "models"))
 if pt_named.exists():
     datas.append((str(pt_named), "models"))
-elif pt_real.exists():
-    # 映射到候选列表认得的名字，使打包后能被自动加载
-    datas.append((str(pt_real), "models"))  # 原名也带上备查
-    datas.append((str(pt_real), "models"))  # 占位，下行真正改名由 _RENAMED 处理
-# datas 不支持改目标文件名（只能改目录），故改用下方 _extra 复制策略说明：
-# —— PyInstaller datas 的第二元素是“目标目录”，文件名保持源名。
-#    因此若仓库里是 best.pt，打包后仍是 models/best.pt，不在候选列表。
-#    解决：构建前确保存在 models/yolov8s_xh_best.pt（见 build.bat 自动改名）。
 if coco.exists():
     datas.append((str(coco), "models"))
 
