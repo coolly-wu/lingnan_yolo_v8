@@ -36,7 +36,7 @@ yolov8_gui/
 ├── models/                         # 把训练好的 yolov8s_xh_best_int8.onnx 放这里
 ├── knowledge/                      # 自动生成 lianjiang_hongcheng.db（60 条防治方案）
 ├── runtime_data/                   # 标注图缓存 + 检测日志库 + Excel/PDF 导出 + 日志
-├── xhgan/                          # 主包
+├── lingnan/                          # 主包
 │   ├── config.py                   # 12 类病虫害 + 5 物候期 + 阈值常量
 │   ├── settings.py                 # 用户设置 settings.json
 │   ├── logging_setup.py            # 日志配置
@@ -108,7 +108,7 @@ pip install -r requirements.txt
 
 ```bash
 python app.py
-# 或： python -m xhgan
+# 或： python -m lingnan
 # Windows 双击： run.bat
 # Linux/macOS： ./run.sh
 ```
@@ -122,7 +122,7 @@ python -m tools.gen_demo_images --num_per_class 2
 
 ## 🧠 模型加载策略
 
-系统启动时按 [xhgan/config.py](xhgan/config.py) 的 `MODEL_CANDIDATES` 顺序自动挑选：
+系统启动时按 [lingnan/config.py](lingnan/config.py) 的 `MODEL_CANDIDATES` 顺序自动挑选：
 
 | 优先级 | 文件位置 | 说明 |
 | ---: | :--- | :--- |

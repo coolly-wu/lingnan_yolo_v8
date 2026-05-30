@@ -37,7 +37,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 
 def _load_images(directory: Path | None, n: int, imgsz: int):
     import numpy as np
-    from xhgan.core.image_io import imread_unicode
+    from lingnan.core.image_io import imread_unicode
 
     if directory is None or not directory.exists():
         print(f"[!] 图片目录不存在或未指定，使用随机噪点图替代")
@@ -67,7 +67,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     sys.path.insert(0, str(PROJECT_ROOT))
 
-    from xhgan.core.inferencer import Inferencer
+    from lingnan.core.inferencer import Inferencer
 
     inf = Inferencer(Path(args.model) if args.model else None)
     print(f"==> 推理后端: {inf.backend_type}   模型: {inf.name}")

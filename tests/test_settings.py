@@ -4,14 +4,14 @@ import pytest
 
 
 def test_default_settings():
-    from xhgan.settings import Settings
+    from lingnan.settings import Settings
     s = Settings()
     assert s.font_scale == 1.0
     assert 0.05 <= s.default_conf <= 1.0
 
 
 def test_save_load_roundtrip(tmp_path, monkeypatch):
-    import xhgan.settings as ss
+    import lingnan.settings as ss
 
     fake_file = tmp_path / "settings.json"
     monkeypatch.setattr(ss, "SETTINGS_FILE", fake_file)
@@ -28,14 +28,14 @@ def test_save_load_roundtrip(tmp_path, monkeypatch):
 
 
 def test_load_missing_returns_default(tmp_path, monkeypatch):
-    import xhgan.settings as ss
+    import lingnan.settings as ss
     monkeypatch.setattr(ss, "SETTINGS_FILE", tmp_path / "absent.json")
     s = ss.load_settings()
     assert s.font_scale == 1.0
 
 
 def test_load_corrupted_returns_default(tmp_path, monkeypatch):
-    import xhgan.settings as ss
+    import lingnan.settings as ss
     f = tmp_path / "settings.json"
     f.write_text("not a json {", encoding="utf-8")
     monkeypatch.setattr(ss, "SETTINGS_FILE", f)

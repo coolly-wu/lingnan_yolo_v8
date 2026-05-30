@@ -1,7 +1,7 @@
 ﻿# YOLOv8s-XH 廉江红橙专用模型配置
 #
 # 在 YOLOv8s 基础上的定制点：
-#   1) nc=12        12 类病虫害（对应 xhgan/config.py DISEASE_CLASSES）
+#   1) nc=12        12 类病虫害（对应 lingnan/config.py DISEASE_CLASSES）
 #   2) P2 head      新增 stride=4 输出头，强化红蜘蛛 / 木虱若虫等小目标
 #   3) 锚框自适应   Anchor-Free，无需手工锚框
 #

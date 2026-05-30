@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 def test_analyze_training_run_generates_visualizations(tmp_path):
-    from xhgan.core import training_visualizer as tv
+    from lingnan.core import training_visualizer as tv
 
     run = tmp_path / "runs" / "yolov8s_xh"
     run.mkdir(parents=True)
@@ -41,7 +41,7 @@ def test_analyze_training_run_generates_visualizations(tmp_path):
 
 
 def test_analyze_training_run_handles_missing_directory(tmp_path):
-    from xhgan.core import training_visualizer as tv
+    from lingnan.core import training_visualizer as tv
 
     artifacts = tv.analyze_training_run(tmp_path / "missing")
 

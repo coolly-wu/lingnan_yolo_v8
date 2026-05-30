@@ -24,7 +24,7 @@ WizardStyle=modern
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
 PrivilegesRequired=lowest
-SetupIconFile=xhgan\assets\icon.ico
+SetupIconFile=lingnan\assets\icon.ico
 UninstallDisplayIcon={app}\{#MyAppExeName}
 
 [Languages]

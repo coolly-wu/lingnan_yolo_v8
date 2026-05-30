@@ -7,12 +7,12 @@ pytestmark = pytest.mark.usefixtures("numpy_stub")
 
 def test_mock_backend_when_no_model(tmp_path, monkeypatch):
     """所有候选模型不存在时 -> Mock"""
-    import xhgan.config as C
+    import lingnan.config as C
     monkeypatch.setattr(C, "MODEL_CANDIDATES", [tmp_path / "absent.onnx"])
 
     # 重新 import 让 monkeypatch 生效
     import importlib
-    import xhgan.core.inferencer as inf_mod
+    import lingnan.core.inferencer as inf_mod
     importlib.reload(inf_mod)
 
     inf = inf_mod.Inferencer()
@@ -24,13 +24,13 @@ def test_mock_predict_returns_list(numpy_stub, monkeypatch):
     """Mock 推理至少返回 1 个 detection（受随机性影响，但 [1,6] 必至少 1）"""
     pytest.importorskip("numpy")
     pytest.importorskip("cv2")
-    import xhgan.config as C
+    import lingnan.config as C
     import tempfile
     with tempfile.TemporaryDirectory() as d:
         from pathlib import Path
         monkeypatch.setattr(C, "MODEL_CANDIDATES", [Path(d) / "absent.onnx"])
         import importlib
-        import xhgan.core.inferencer as inf_mod
+        import lingnan.core.inferencer as inf_mod
         importlib.reload(inf_mod)
         import numpy as np
         inf = inf_mod.Inferencer()

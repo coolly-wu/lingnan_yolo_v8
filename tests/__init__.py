@@ -1,4 +1,4 @@
-"""pytest 测试配置：确保从仓库根能 import xhgan"""
+"""pytest 测试配置：确保从仓库根能 import lingnan"""
 
 import sys
 from pathlib import Path

@@ -32,7 +32,7 @@ def _similar_color_different_structure(path: Path, size=(800, 480)):
 
 
 def test_similarity_same_image_high(tmp_path):
-    from xhgan.core import image_collector as ic
+    from lingnan.core import image_collector as ic
 
     ref = tmp_path / "ref.jpg"
     _image(ref)
@@ -41,7 +41,7 @@ def test_similarity_same_image_high(tmp_path):
 
 
 def test_similarity_resized_same_subject_high(tmp_path):
-    from xhgan.core import image_collector as ic
+    from lingnan.core import image_collector as ic
 
     ref = tmp_path / "ref.jpg"
     _orchard_like_image(ref)
@@ -50,7 +50,7 @@ def test_similarity_resized_same_subject_high(tmp_path):
 
 
 def test_similarity_similar_color_different_structure_low(tmp_path):
-    from xhgan.core import image_collector as ic
+    from lingnan.core import image_collector as ic
 
     ref = tmp_path / "ref.jpg"
     other = tmp_path / "other.jpg"
@@ -61,7 +61,7 @@ def test_similarity_similar_color_different_structure_low(tmp_path):
 
 
 def test_manifest_hash_and_url_roundtrip(tmp_path):
-    from xhgan.core import image_collector as ic
+    from lingnan.core import image_collector as ic
 
     local = tmp_path / "raw" / "red_mite" / "a.jpg"
     local.parent.mkdir(parents=True)
@@ -83,7 +83,7 @@ def test_manifest_hash_and_url_roundtrip(tmp_path):
 
 
 def test_collect_candidate_without_reference_or_size_limit(tmp_path, monkeypatch):
-    from xhgan.core import image_collector as ic
+    from lingnan.core import image_collector as ic
 
     raw_img = tmp_path / "tiny.jpg"
     _image(raw_img, size=(120, 80))
@@ -104,7 +104,7 @@ def test_collect_candidate_without_reference_or_size_limit(tmp_path, monkeypatch
 
 
 def test_parse_bing_image_urls_from_html_entities():
-    from xhgan.core import image_collector as ic
+    from lingnan.core import image_collector as ic
 
     direct = "https://example.com/image-a.jpg"
     media = "https://example.com/image-b.jpg"
@@ -122,7 +122,7 @@ def test_parse_bing_image_urls_from_html_entities():
 
 
 def test_parse_google_image_urls_from_payload():
-    from xhgan.core import image_collector as ic
+    from lingnan.core import image_collector as ic
 
     direct = "https://example.com/orange-leaf.jpg"
     escaped = "https:\\/\\/example.com\\/orange-fruit.webp"
@@ -140,7 +140,7 @@ def test_parse_google_image_urls_from_payload():
 
 
 def test_search_images_merges_engines_and_dedupes(monkeypatch):
-    from xhgan.core import image_collector as ic
+    from lingnan.core import image_collector as ic
 
     monkeypatch.setattr(
         ic,
@@ -178,7 +178,7 @@ def test_search_images_merges_engines_and_dedupes(monkeypatch):
 
 
 def test_search_images_filters_unrelated_chinese_candidates(monkeypatch):
-    from xhgan.core import image_collector as ic
+    from lingnan.core import image_collector as ic
 
     monkeypatch.setattr(
         ic,
@@ -190,7 +190,7 @@ def test_search_images_filters_unrelated_chinese_candidates(monkeypatch):
 
 
 def test_parse_baidu_image_urls_from_json():
-    from xhgan.core import image_collector as ic
+    from lingnan.core import image_collector as ic
 
     page = (
         '{"data":['
@@ -207,7 +207,7 @@ def test_parse_baidu_image_urls_from_json():
 
 
 def test_parse_google_async_image_urls():
-    from xhgan.core import image_collector as ic
+    from lingnan.core import image_collector as ic
 
     page = (
         r')]}\' {"ischj":{"results":"[{\"tu\":\"https://encrypted-tbn0.gstatic.com/images?q\\u003dtbn:abc\\u0026s\",'
@@ -220,7 +220,7 @@ def test_parse_google_async_image_urls():
 
 
 def test_dataset_raw_images_include_class_subdirs(tmp_path):
-    from xhgan.core import dataset_manager as dm
+    from lingnan.core import dataset_manager as dm
 
     img = tmp_path / "dataset" / "raw" / "red_mite" / "a.jpg"
     img.parent.mkdir(parents=True)

@@ -3,10 +3,10 @@
 
 def test_setup_creates_log_file(tmp_path, monkeypatch):
     import importlib
-    import xhgan.config as C
+    import lingnan.config as C
     monkeypatch.setattr(C, "RUNTIME_DIR", tmp_path)
 
-    import xhgan.logging_setup as ls
+    import lingnan.logging_setup as ls
     importlib.reload(ls)
     log_file = ls.setup_logging()
     assert log_file.parent.exists()

@@ -4,7 +4,7 @@ import pytest
 
 
 def test_log_insert_query(tmp_path):
-    from xhgan.data.log_manager import LogManager
+    from lingnan.data.log_manager import LogManager
     lm = LogManager(tmp_path / "log.db")
     assert lm.count() == 0
     log_id = lm.insert(
@@ -28,7 +28,7 @@ def test_log_insert_query(tmp_path):
 
 
 def test_log_filter_by_disease(tmp_path):
-    from xhgan.data.log_manager import LogManager
+    from lingnan.data.log_manager import LogManager
     lm = LogManager(tmp_path / "log.db")
     lm.insert(sample_source="本地导入", target_disease="柑橘黄龙病",
               confidence=0.9, severity_level="Red")
@@ -40,7 +40,7 @@ def test_log_filter_by_disease(tmp_path):
 
 
 def test_farmer_crud(tmp_path):
-    from xhgan.data.farmer_manager import FarmerManager
+    from lingnan.data.farmer_manager import FarmerManager
     fm = FarmerManager(tmp_path / "fm.db")
     assert fm.count() == 0
     fid = fm.insert(farmer_name="李四", orchard_block="B-1", phone="13800001111")
@@ -59,7 +59,7 @@ def test_farmer_crud(tmp_path):
 
 def test_farmer_unique_constraint(tmp_path):
     """同名 + 同果园应被合并（INSERT OR REPLACE）"""
-    from xhgan.data.farmer_manager import FarmerManager
+    from lingnan.data.farmer_manager import FarmerManager
     fm = FarmerManager(tmp_path / "fm.db")
     fm.insert(farmer_name="王五", orchard_block="C-3")
     fm.insert(farmer_name="王五", orchard_block="C-3", phone="13700000000")
@@ -68,14 +68,14 @@ def test_farmer_unique_constraint(tmp_path):
 
 
 def test_farmer_reject_empty_name(tmp_path):
-    from xhgan.data.farmer_manager import FarmerManager
+    from lingnan.data.farmer_manager import FarmerManager
     fm = FarmerManager(tmp_path / "fm.db")
     with pytest.raises(ValueError):
         fm.insert(farmer_name="", orchard_block="A")
 
 
 def test_farmer_csv_template(tmp_path):
-    from xhgan.data.farmer_manager import CSV_FIELDS, FarmerManager
+    from lingnan.data.farmer_manager import CSV_FIELDS, FarmerManager
     fm = FarmerManager(tmp_path / "fm.db")
     template = fm.write_csv_template(tmp_path / "farmers.csv")
     text = template.read_text(encoding="utf-8-sig")
@@ -84,7 +84,7 @@ def test_farmer_csv_template(tmp_path):
 
 
 def test_farmer_import_csv(tmp_path):
-    from xhgan.data.farmer_manager import FarmerManager
+    from lingnan.data.farmer_manager import FarmerManager
     csv_path = tmp_path / "farmers.csv"
     csv_path.write_text(
         "农户姓名,果园区块,联系电话,果园位置,备注\n"
@@ -103,7 +103,7 @@ def test_farmer_import_csv(tmp_path):
 
 
 def test_farmer_import_csv_missing_required_column(tmp_path):
-    from xhgan.data.farmer_manager import FarmerManager
+    from lingnan.data.farmer_manager import FarmerManager
     csv_path = tmp_path / "farmers.csv"
     csv_path.write_text(
         "农户姓名,果园区块,联系电话,备注\n"
@@ -116,7 +116,7 @@ def test_farmer_import_csv_missing_required_column(tmp_path):
 
 
 def test_farmer_import_csv_missing_required_value(tmp_path):
-    from xhgan.data.farmer_manager import FarmerManager
+    from lingnan.data.farmer_manager import FarmerManager
     csv_path = tmp_path / "farmers.csv"
     csv_path.write_text(
         "农户姓名,果园区块,联系电话,果园位置,备注\n"
@@ -133,7 +133,7 @@ def test_farmer_import_csv_missing_required_value(tmp_path):
 
 
 def test_farmer_import_csv_upsert_duplicate(tmp_path):
-    from xhgan.data.farmer_manager import FarmerManager
+    from lingnan.data.farmer_manager import FarmerManager
     csv_path = tmp_path / "farmers.csv"
     csv_path.write_text(
         "农户姓名,果园区块,联系电话,果园位置,备注\n"

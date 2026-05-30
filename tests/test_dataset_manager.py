@@ -8,7 +8,7 @@ def _fake_image(path: Path):
 
 
 def test_label_roundtrip(tmp_path):
-    from xhgan.core import dataset_manager as dm
+    from lingnan.core import dataset_manager as dm
 
     label = tmp_path / "a.txt"
     boxes = [
@@ -24,7 +24,7 @@ def test_label_roundtrip(tmp_path):
 
 
 def test_import_and_split_dataset(tmp_path):
-    from xhgan.core import dataset_manager as dm
+    from lingnan.core import dataset_manager as dm
 
     src = tmp_path / "src"
     src.mkdir()
@@ -50,10 +50,10 @@ def test_import_and_split_dataset(tmp_path):
 
 
 def test_training_command_contains_field_aug(tmp_path):
-    from xhgan.core import dataset_manager as dm
+    from lingnan.core import dataset_manager as dm
 
     cmd = dm.build_train_command(tmp_path / "data.yaml", epochs=12, imgsz=768, batch=4)
-    assert cmd[1:3] == ["-m", "xhgan.train_yolo"]
+    assert cmd[1:3] == ["-m", "lingnan.train_yolo"]
     joined = " ".join(cmd)
     assert "--epochs 12" in joined
     assert "--imgsz 768" in joined
@@ -61,7 +61,7 @@ def test_training_command_contains_field_aug(tmp_path):
 
 
 def test_validate_training_data_yaml_requires_train_and_val_images(tmp_path):
-    from xhgan.core import dataset_manager as dm
+    from lingnan.core import dataset_manager as dm
 
     root = tmp_path / "dataset"
     (root / "images" / "train").mkdir(parents=True)
@@ -89,7 +89,7 @@ def test_validate_training_data_yaml_requires_train_and_val_images(tmp_path):
 
 
 def test_publish_trained_weights_to_models_dir(tmp_path):
-    from xhgan.train_yolo import publish_trained_weights
+    from lingnan.train_yolo import publish_trained_weights
 
     run_dir = tmp_path / "runs" / "yolov8s_xh"
     weights = run_dir / "weights"
@@ -110,7 +110,7 @@ def test_publish_trained_weights_to_models_dir(tmp_path):
 
 
 def test_submission_required_before_training(tmp_path):
-    from xhgan.core import dataset_manager as dm
+    from lingnan.core import dataset_manager as dm
 
     root = tmp_path / "dataset"
     dm.ensure_dataset(root)
@@ -139,7 +139,7 @@ def test_submission_required_before_training(tmp_path):
 
 
 def test_delete_annotated_sample_removes_raw_label_and_split_copies(tmp_path):
-    from xhgan.core import dataset_manager as dm
+    from lingnan.core import dataset_manager as dm
 
     root = tmp_path / "dataset"
     raw_class = root / "raw" / "red_mite"
@@ -182,7 +182,7 @@ def test_delete_annotated_sample_removes_raw_label_and_split_copies(tmp_path):
 
 
 def test_delete_raw_sample_removes_unannotated_image_and_split_copies(tmp_path):
-    from xhgan.core import dataset_manager as dm
+    from lingnan.core import dataset_manager as dm
 
     root = tmp_path / "dataset"
     raw = root / "raw"
@@ -209,7 +209,7 @@ def test_delete_raw_sample_removes_unannotated_image_and_split_copies(tmp_path):
 
 
 def test_clear_raw_samples_removes_all_imported_images_and_labels(tmp_path):
-    from xhgan.core import dataset_manager as dm
+    from lingnan.core import dataset_manager as dm
 
     root = tmp_path / "dataset"
     raw_class = root / "raw" / "huanglongbing"

@@ -94,7 +94,7 @@ def main(argv: list[str] | None = None) -> int:
         for k in range(args.num_per_class):
             img = _make_image(preset, args.size, seed=42 + n_files)
             f = out_dir / f"{preset['key']}_{k+1:02d}.jpg"
-            from xhgan.core.image_io import imwrite_unicode
+            from lingnan.core.image_io import imwrite_unicode
             imwrite_unicode(f, img, ".jpg")
             n_files += 1
     print(f"==> 已生成 {n_files} 张演示图：{out_dir}")

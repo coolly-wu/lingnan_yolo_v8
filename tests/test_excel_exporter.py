@@ -10,7 +10,7 @@ openpyxl = importlib.util.find_spec("openpyxl")
 
 @pytest.mark.skipif(openpyxl is None, reason="openpyxl 未安装")
 def test_export_logs_basic(tmp_path):
-    from xhgan.data.excel_exporter import export_logs
+    from lingnan.data.excel_exporter import export_logs
     rows = [
         {
             "id": 1, "datetime": "2026-05-28 10:00:00",

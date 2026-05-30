@@ -79,8 +79,8 @@ exe = EXE(
     strip=False,
     upx=True,
     console=False,   # 不弹黑窗
-    icon=str(ROOT / "xhgan" / "assets" / "icon.ico")
-        if (ROOT / "xhgan" / "assets" / "icon.ico").exists() else None,
+    icon=str(ROOT / "lingnan" / "assets" / "icon.ico")
+        if (ROOT / "lingnan" / "assets" / "icon.ico").exists() else None,
 )
 
 coll = COLLECT(

@@ -4,13 +4,13 @@ import pytest
 
 
 def test_seed_yields_60_rows():
-    from xhgan.data import prescriptions_seed as seed
+    from lingnan.data import prescriptions_seed as seed
     rows = list(seed.iter_seed_rows())
     assert len(rows) == 60  # 12 类 × 5 物候期
 
 
 def test_knowledge_base_init_seeds(tmp_path):
-    from xhgan.data.knowledge_base import KnowledgeBase
+    from lingnan.data.knowledge_base import KnowledgeBase
     db = tmp_path / "kb.db"
     kb = KnowledgeBase(db)
     assert kb.count() == 60
@@ -25,7 +25,7 @@ def test_knowledge_base_init_seeds(tmp_path):
 ])
 def test_every_combo_lookup(tmp_path, disease_id, phase_key):
     """12×5=60 组合每一组都应能查到方案"""
-    from xhgan.data.knowledge_base import KnowledgeBase
+    from lingnan.data.knowledge_base import KnowledgeBase
     kb = KnowledgeBase(tmp_path / "kb.db")
     rx = kb.lookup(disease_id, phase_key)
     assert rx is not None
@@ -37,7 +37,7 @@ def test_every_combo_lookup(tmp_path, disease_id, phase_key):
 
 def test_chemical_required_fields(tmp_path):
     """技术规范 §8.8.2：化学处方四要素 name/dosage/phi/notes"""
-    from xhgan.data.knowledge_base import KnowledgeBase
+    from lingnan.data.knowledge_base import KnowledgeBase
     kb = KnowledgeBase(tmp_path / "kb.db")
     seen = 0
     for did in range(12):
@@ -53,7 +53,7 @@ def test_chemical_required_fields(tmp_path):
 
 def test_hlb_chemical_warning(tmp_path):
     """黄龙病严重情况下文档要求显式提醒砍除"""
-    from xhgan.data.knowledge_base import KnowledgeBase
+    from lingnan.data.knowledge_base import KnowledgeBase
     kb = KnowledgeBase(tmp_path / "kb.db")
     for phase in ["sprout", "young_fruit", "harvest"]:
         rx = kb.lookup(0, phase)
@@ -65,7 +65,7 @@ def test_hlb_chemical_warning(tmp_path):
 
 def test_fallback_to_any_phenophase(tmp_path):
     """未知物候期应 fallback 到任意一条"""
-    from xhgan.data.knowledge_base import KnowledgeBase
+    from lingnan.data.knowledge_base import KnowledgeBase
     kb = KnowledgeBase(tmp_path / "kb.db")
     rx = kb.lookup(0, "nonexistent_phase")
     assert rx is not None
