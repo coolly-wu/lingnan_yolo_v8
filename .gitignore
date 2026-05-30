@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+
+# IDE and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Build outputs
+build/
+dist/
+*.spec~
+
+# Runtime data and generated local state
+runtime_data/
+knowledge/*.db
+*.log
+
+# Model weights and exported inference engines
+*.pt
+*.onnx
+*.engine
+*.tflite
+*.mlmodel
+!models/README.md
+
+# Local secrets and environment files
+.env
+.env.*
+!.env.example
