@@ -139,6 +139,18 @@ class MainWindow(FluentWindow):
         self.addSubInterface(self.help_page, FIF.HELP, "帮助诊断")
         self.addSubInterface(self.about_page, FIF.INFO, "关于")
 
+        self._apply_navigation_style()
+
+    def _apply_navigation_style(self):
+        nav = getattr(self, "navigationInterface", None)
+        if nav is None:
+            return
+        nav.setExpandWidth(160)
+        panel = getattr(nav, "panel", nav)
+        for item in panel.findChildren(QWidget):
+            if callable(getattr(item, "text", None)) and callable(getattr(item, "setCompacted", None)):
+                setFont(item, 15)
+
     def _build_home_page(self) -> QWidget:
         page = QWidget()
         page.setObjectName("homePage")
